@@ -1,5 +1,8 @@
 package with.dee2.firstkotlin
 
+import android.app.Activity
+import android.content.Intent
+import android.content.SyncRequest
 import android.nfc.Tag
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -30,9 +33,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        button.setOnClickListener{listener
+        button.setOnClickListener{
+            val intent=Intent(this,TestActivity::class.java)
+            intent.putExtra("param","값")
+            startActivity(intent)
         }
 
+        moveSub.setOnClickListener{
+            val intent=Intent(this,SubActivity::class.java)
+            intent.putExtra("content",textView.text.toString())
+            Log.d("dd",textView.text.toString())
+            startActivityForResult(intent,99)
+        }
         for (idx in 1..9){
             textView.append("\n현재 숫자 ${idx} 입니다 ㅋ")
             Log.d(TAG,"현재 숫자 ${idx} 입니다 ㅋ")
@@ -68,6 +80,19 @@ class MainActivity : AppCompatActivity() {
         LogTest.print("태그","test")
         return true
     }
+    override fun onActivityResult(requestCode: Int,resultCode:Int, data:Intent?){
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if(resultCode== Activity.RESULT_OK){
+            when(requestCode){
+                99->{
+                    val returnValue=data?.getStringExtra("value") ?:"None"
+                    Log.d("activity","$returnValue");
+                }
+            }
+
+        }
+    }
 }
 
 class LogTest : Test() {
@@ -100,4 +125,5 @@ open class Test {
         Log.d("testFun","[$param]실행")
         return 1
     }
+
 }

@@ -25,5 +25,16 @@
         tools:layout_editor_absoluteX="188dp"
         tools:layout_editor_absoluteY="488dp" />
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/moveSub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SubActivity로 이동" />
+
 </LinearLayout>
-    <!-- TextView 에 ellipsize 사용하면 text ... 로 그 크기에 맞춰 보여줌 -!>
