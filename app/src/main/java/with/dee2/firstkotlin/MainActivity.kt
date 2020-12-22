@@ -32,6 +32,26 @@ class MainActivity : AppCompatActivity() {
                 textView.text="listener 클릭"
             }
         }
+        var myname = "여정화"
+        Log.d(TAG, "my name=$myname")
+        myname = "여정화2"
+        Log.d(TAG, "my name=$myname")
+        val myAge = 19
+        Log.d(TAG, "pi=$myAge")
+
+        var numbers = "1,2,3,4,5,6"
+        var thisWeekNumbers = "5,6,7,8,9,10"
+        if (numbers == thisWeekNumbers){
+            textView.text = "당첨되었습니다."
+        }else{
+            textView.text = "당첨되지않았습니다."
+        }
+
+        for(idx in 1..10){
+            textView.append("\n현재 숫자는 ${idx} 입니다.")
+
+
+        }
 
         button.setOnClickListener{
             val intent=Intent(this,TestActivity::class.java)
@@ -45,6 +65,15 @@ class MainActivity : AppCompatActivity() {
             Log.d("dd",textView.text.toString())
             startActivityForResult(intent,99)
         }
+        moveRecycle.setOnClickListener{
+            val intent =Intent(this,RecycleActivity::class.java)
+            startActivity(intent)
+        }
+        fragmentBtn.setOnClickListener{
+            val intent =Intent(this,FragmentMainActivity::class.java)
+            startActivity(intent)
+        }
+
         for (idx in 1..9){
             textView.append("\n현재 숫자 ${idx} 입니다 ㅋ")
             Log.d(TAG,"현재 숫자 ${idx} 입니다 ㅋ")

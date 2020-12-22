@@ -1,5 +1,6 @@
 package with.dee2.firstkotlin
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,7 @@ import kotlinx.android.synthetic.main.item.view.*
 import java.text.SimpleDateFormat
 
 class CustomAdapter : RecyclerView.Adapter<Holder>() {
-    val listData= mutableListOf<Memo>()
+    var listData= mutableListOf<Memo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val itemView =LayoutInflater.from(parent.context).inflate(R.layout.item,parent,false)
@@ -27,6 +28,15 @@ class CustomAdapter : RecyclerView.Adapter<Holder>() {
 
 }
 class Holder(itemView: View):RecyclerView.ViewHolder(itemView){
+    init {
+        itemView.setOnClickListener{
+            val intent=Intent(itemView.context,RecycleSubActivity::class.java)
+            intent.putExtra("no",itemView.textNo.text)
+            intent.putExtra("title",itemView.textTitle.text)
+            intent.putExtra("date",itemView.textDate.text)
+            itemView.context.startActivity(intent)
+        }
+    }
     fun setMemo(memo:Memo){
         itemView.textNo.text="${memo.no}"
         itemView.textTitle.text=memo.title
