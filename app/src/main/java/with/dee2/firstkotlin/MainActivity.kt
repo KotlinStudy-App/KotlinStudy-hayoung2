@@ -73,6 +73,10 @@ class MainActivity : AppCompatActivity() {
             val intent =Intent(this,FragmentMainActivity::class.java)
             startActivity(intent)
         }
+        moveSql.setOnClickListener{
+            val intent =Intent(this,DBConnectActivity::class.java)
+            startActivity(intent)
+        }
 
         for (idx in 1..9){
             textView.append("\n현재 숫자 ${idx} 입니다 ㅋ")

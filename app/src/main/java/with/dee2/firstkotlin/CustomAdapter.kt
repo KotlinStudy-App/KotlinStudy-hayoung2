@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item.view.*
 import java.text.SimpleDateFormat
 
 class CustomAdapter : RecyclerView.Adapter<Holder>() {
-    var listData= mutableListOf<Memo>()
+    var listData= mutableListOf<MemoDB>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val itemView =LayoutInflater.from(parent.context).inflate(R.layout.item,parent,false)
@@ -37,7 +37,7 @@ class Holder(itemView: View):RecyclerView.ViewHolder(itemView){
             itemView.context.startActivity(intent)
         }
     }
-    fun setMemo(memo:Memo){
+    fun setMemo(memo:MemoDB){
         itemView.textNo.text="${memo.no}"
         itemView.textTitle.text=memo.title
         val sdf=SimpleDateFormat("yyyy/MM/dd")

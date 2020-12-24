@@ -21,13 +21,13 @@ class RecycleActivity : AppCompatActivity() {
         //레이아웃매니저 연결
         recycler.layoutManager=LinearLayoutManager(this)
     }
-    fun loadData():MutableList<Memo>{
-        val data:MutableList<Memo> = mutableListOf()
+    fun loadData():MutableList<MemoDB>{
+        val data:MutableList<MemoDB> = mutableListOf()
         for(no in 1..20){
             val title ="이것이 안드로이드다 ${no} !"
             val date=System.currentTimeMillis()
 
-            val memo=Memo(no,title,date)
+            val memo=MemoDB(no,title,date)
             data.add(memo)
 
         }
