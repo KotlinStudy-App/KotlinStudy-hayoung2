@@ -47,6 +47,20 @@ openGallery()
                 ActivityCompat.requestPermissions(this,STORAGE_PERMISSION,FLAG_PERM_STORAGE)
             }
         }
+        buttonAsync.setOnClickListener {
+            val intent =Intent(this,AsyncTestActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonTimer.setOnClickListener {
+            val intent=Intent(this,TimerActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonService.setOnClickListener {
+            val intent=Intent(this, ServiceActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 

@@ -28,4 +28,22 @@
         android:layout_marginTop="50dp"
         android:layout_marginLeft="170dp"
         android:text="갤러리" />
+
+    <Button
+        android:id="@+id/buttonTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="타이머이동" />
+
+    <Button
+        android:id="@+id/buttonAsync"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AsyncTest 이동" />
+
+    <Button
+        android:id="@+id/buttonService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="서비스 Button" />
 </LinearLayout>

@@ -18,10 +18,11 @@ class TimerActivity : AppCompatActivity() {
             start()
         }
         buttonStop.setOnClickListener{
-            stop()
+            pause()
         }
         buttonPause.setOnClickListener {
-            pause()
+
+            stop()
         }
     }
     val SET_TIME =51
