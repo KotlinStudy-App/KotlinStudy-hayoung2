@@ -46,4 +46,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="서비스 Button" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="serviceStart"
+        android:text="서비스 시작버튼" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="serviceStop"
+        android:text="서비스 스탑버튼" />
 </LinearLayout>

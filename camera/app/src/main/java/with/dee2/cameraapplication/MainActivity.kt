@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
@@ -84,6 +85,17 @@ val intent= Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.type=MediaStore.Images.Media.CONTENT_TYPE
 
         startActivityForResult (intent,FLAG_REQ_STORAGE)
+    }
+
+    fun serviceStart(view: View){
+        val intent =Intent(this,Foreground::class.java)
+        ContextCompat.startForegroundService(this,intent)
+
+    }
+
+    fun serviceStop(view: View) {
+        val intent =Intent(this,Foreground::class.java)
+       stopService(intent)
     }
 
     fun saveImageFile(filename:String, mimeType:String,bitmap:Bitmap) : Uri? {
