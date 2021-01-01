@@ -1,4 +1,4 @@
-## 1days (1~8)
+## 1~ 4일차(1~8)
 
 -----------------------
 
@@ -54,7 +54,7 @@
 
 
 
-## 2~4 days (9~19) 
+## 4~ 5 일차  (9 ~ 19) 
 
 --------------------------------------
 
@@ -117,9 +117,57 @@
 
 
 
-## 5days (20~ 22)
+## 5~ 7 일차 (20 ~ 22)
 
 ---------------------------------------------
 
+- Spinner
 
+```kotlin
+        val adapter=ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data)
+        spinner2.adapter=adapter
+        spinner2.onItemSelectedListener=object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                val selectedItem=data[p2]
+                value.text=selectedItem
+            }
+
+        }
+```
+
+- Fragment
+
+```kotlin
+// ListFragment는 그냥 설정한 값 Fragment() 상속 받고 거기에 안에 들어갈 layout 만들고 설정 
+// 
+val fragment =ListFragment()
+        // 삽입 트랜잭션 시작
+        val transaction =supportFragmentManager.beginTransaction()
+        // 트랜잭션을 통해서 프ㅐ그먼트 삽입
+        transaction.add(R.id.frameLayout,fragment)
+        //커밋
+        transaction.commit()
+```
+
+
+
+- 권한 설정(카메라)
+
+  ```kotlin
+  //AndroidManifest.xml 에 먼저 설정
+  // 해당 메소드로 해당권한 획득 확인함.
+  val cameraPermission = ContextCompat.checkSelfPermission(this,android.Manifest.permission.CAMERA)
+  if(cameraPermission==PackageManager.PERMISSION_GRANTED){
+          // 권한 승인
+  }else{     ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.CAMERA),FLAG_CAMERA)
+        // 권한 요청 
+  }
+  
+  ```
+
+  
 
