@@ -285,3 +285,58 @@ val helper = SpliteHelper(this,"memo",1)
 // context, DB 이름 (왜 강의에서 sqlite.sql이라고 했는지 이해 불가(설명 ㄴ) , 버전 )
 ```
 
+
+
+## 11 일차 (27 ~ 28)
+
+-----------------------------
+
+```kotlin
+val STORAGE_PERMISSION =arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+//시스템 권한 요청 코드 
+ActivityCompat.requestPermissions(this,CAMERA_PERMISSION,FLAG_PERM_CAMERA)
+
+//권한 체크 
+val result = ContextCompat.checkSelfPermission(this, permission)
+
+fun openCamera() {
+    // 촬영된 사진 데이터 가져옴
+    val intent= Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    startActivityForResult(intent,FLAG_REQ_CAMERA)
+}
+```
+
+
+
+-  MediStore : 시스템 내에 제공하는 medai data db, Provider을 이용하여 사용가능
+
+```kotlin
+var values=ContentValues()
+// (항목, 값 ) 넣음. 
+values.put(MediaStore.Images.Media.DISPLAY_NAME,filename)
+ 
+//현재 sdk 버전 ,  버전 코드 
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+    values.put(MediaStore.Images.Media.IS_PENDING,1)
+}
+// uri (Uniform Resource Identifier) 인터넷에 있는 자원을 나타내는 식별가능한 주소
+// uri 하위개념 url, urn 
+// Content Provider : 다른 앱에 DB 접근 
+//UI에서 ContentProvider에 액세스하기 위해 UI의 Activity 또는 Fragment가 쿼리에 대해 CursorLoader를 호출하고 ContentResolver를 사용하여 ContentProvider를 가져옴 
+// 새로운 행 삽입하고 해당 열에대한 Content uri를 반환 
+// ContentResolver ? : 객체와 ContentProvider 객체와 통신 (ContentProvider 구현하는 클래스 인스터스 ) 클라이언트로부터 데이터 요청을 받아 요청된 작업 실행하고 반환,DB 조작
+val url=contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values)
+
+// URI 데이터 액세스 
+var descriper=contentResolver.openFileDescriptor(url,"w")
+if (descriper!=null){
+    //File or 데이터 쓰기위한 출력스트림 이미지 데이터와 같은 원시 바이트 스트림을 쓰기위한 것
+    val fos=FileOutputStream(descriper.fileDescriptor)
+    // fos에 압축하여 저장. 
+    bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos)
+    fos.close()
+    return url
+}
+```
+
