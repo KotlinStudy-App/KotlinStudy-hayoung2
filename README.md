@@ -340,3 +340,76 @@ if (descriper!=null){
 }
 ```
 
+
+
+## 12일차 (29 강)
+
+- thread ? : 1 프로세스 1 개 이상 스레드 , 프로세스 내에서 실제로 작업 수행
+- process : 시스템 상에서 실행 중인 프로그램, 독립된 메모리 공간 할당받음.
+
+```kotlin
+thread(start=true) {
+  for (i in 0..100){
+      Thread.sleep(1000)
+  }
+}//Looper :Message queue 에서 메시지 해당 값을 차례로 꺼내서 핸들러로 처리하도록 전달(앱이 실행 시 자동 생성(무한루프))
+
+//Hanlder 인스턴스는 단일 스레드 or 특정 스레드의 메시지와 연결 
+// Handler 역할 : msg나 실행파일을 어느 시점에 실행할지 예약, 스레드에 수행할 작업을 대기열에 추가함. 명령어 처리  (개발자가 생성)
+  val handler =object : Handler() {
+      //msg 수신하기 위해 구현 
+      //대기열에 ㅊ가하기 위해 
+      //
+        override fun handleMessage(msg: Message) {
+            // timer 수정하는 코드 
+            // 메인쓰레드(UI ) 제어(변경시켜줌)
+        }
+    }
+// 안드로이드 스레드에는 1) 메인스레드 2) 백그라운드 스레드
+// 메인(UI Thread) : 화면 UI 처리, UI 이벤트 응답, 작업을 수 초내에 응당안할시 팝업창(응답 ㄴㄴ), 새로운 스레드 생성해서 처림
+// 백그라운드 스레드 : 시간 내에 처리하기 어려운 작업 처리 
+```
+
+
+
+## 13일차 (30강) 
+
+- AsyncTask는 Thread 나 Handler 같은 것과 다름 짧은 작업에 사용되어야 함. 
+
+```kotlin
+//동기 작업 ? 비동기 작업 ?
+// 1. 보통 순차적으로 한 작업이 완료되면 다음 작업
+// 2. 요청 -> 결과 같지않음 다른 작업 하면서 자원 효율적 사용 
+// 비동기 작업 실행하면 4단계 거침
+// 1. onPreExecute() : 작업이 실행되기 전 UI Thread 호출, 
+// 2. doInBackground() : onPreExecute() 이 완료된 후 backgorund thread 호출. 오래 걸리는 것 여기다가 넣기. 계산결과 UI Thread에 게시됨
+// 3. onProgressUpdate() : UI thread에서 호출되고 background가 계속 실행되는 동안 사용자 인터페이스에 진행상황 표시. 여기다가 막 로딩같은 거 넣으면 될듯. 
+// 4. onPostExecute() : background 완료한 후 UI THread에서 호출 .결과는 매개변수로 전달. 
+// 작업은 한번만 실행 가능. 
+// Coruoutin 도 있음 이게 더 좋다는데.. 
+fun downloadAndSetImage() {
+        //interface 추상이라 코드 구현해야함
+        //background 처리 후 main therad에 화면 처리
+        //handler로 아래 함수 호출
+        val asyncTask=object : AsyncTask<String,Void, Bitmap?>(){
+            override fun doInBackground(vararg p0: String?): Bitmap? {
+                    //주소에 파이프 연결이라고 생각
+                    val stream = url.openStream()
+                    bitmap = BitmapFactory.decodeStream(stream)
+            }
+//            //메인쓰레드 /포어그라운드 영역
+//            override fun onProgressUpdate(vararg values: Void?) {
+//                super.onProgressUpdate(*values)
+//            }
+            override fun onPostExecute(result: Bitmap?) {
+                result?.let {
+                    imagePreview.setImageBitmap(it)
+                }
+            }
+
+        }
+        asyncTask.execute(url) // UI Thread에 호출 
+  }
+
+```
+
