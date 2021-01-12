@@ -413,3 +413,45 @@ fun downloadAndSetImage() {
 
 ```
 
+
+
+## 14 ~ 16일차 ( 31강,32강)
+
+- Service() : 다른 application 이 적용되어도 background에서 계속 실행. 프로세스 간 통신 or 네트워크 트랜잭션 등 오래 실행되는 작업 수행
+
+```kotlin
+//클라이언트가 서비스와 통신을 주고받기 위해 사용할 인터페이스를 제공
+//다른 애플리케이션 구성요소를 도울 때까지만 유지되고 백그라운드에서 무한히 실행X
+override fun onBind(intent: Intent): IBinder {
+        return MyBinder()
+}
+
+// Service를 시작하도록 요청하는 경우 사용. 
+// 2개 중 하나만 선택, 같이 사용할 때도 ㅇㅇ, 백그라운드에서 무한히 실행
+//확실히 중지
+override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val action =intent?.action
+        when(action) {
+            ACTION_CREATE->create()
+            ACTION_DELETE->delete()
+        }
+        return super.onStartCommand(intent, flags, startId)
+}
+```
+
+```kotlin
+    val connection =object:ServiceConnection{
+        // Android 시스템이 클라이언트와 서비스 사이에 연결을 생성시
+        override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
+            //bind되면 실행
+            isService=true
+            val binder=p1 as MyService.MyBinder
+            myService =binder.getService()
+        }
+        //연결 ㄴㄴ
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            //예외발생할 경우 호출되고 unbind는 아님
+                isService=false
+        }
+```
+
