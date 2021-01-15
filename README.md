@@ -455,3 +455,29 @@ override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         }
 ```
 
+
+
+## 33, 35 강
+
+```kotlin
+ Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,id) // p1 이미 인코딩된 uri 를 id에 새로운 uri 만듦
+// 안드로이드에서 view 만드는 방법
+//LayoutInflater는 LayoutInflater.from(context)를 이용하여 얻음
+
+```
+
+
+
+```kotlin
+getMapAsync(onMapReady(GoogleMap map)) // GoogleMap을 얻을 수 있음. call back 기다림 
+
+//마커 옵션 설정 위치, 타이틀, 아이콘 설정  Google map 에 추가 
+val marker=MarkerOptions().position(seoul).title("Seoul").icon(descriptor)
+        mMap.addMarker(marker)
+// 설정 
+        val cameraOption =CameraPosition.Builder().target(seoul).zoom(17f).build()
+
+        val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
+        mMap.moveCamera(camera)
+```
+
