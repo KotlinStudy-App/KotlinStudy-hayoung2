@@ -457,7 +457,7 @@ override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
 
 
-## 33, 35 강
+## 33, 35 ,36강
 
 ```kotlin
  Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,id) // p1 이미 인코딩된 uri 를 id에 새로운 uri 만듦
@@ -479,5 +479,48 @@ val marker=MarkerOptions().position(seoul).title("Seoul").icon(descriptor)
 
         val camera=CameraUpdateFactory.newCameraPosition(cameraOption)
         mMap.moveCamera(camera)
+```
+
+
+
+```kotlin
+priority=LocationRequest.PRIORITY_HIGH_ACCURACY // 가장 정확한 위치를 요청
+
+```
+
+
+
+## 37강
+
+- Retrofit2 : 안드로이드에서 서버와 통신하기 위해 square사의 라이브러리, http통신에 활용하는 volley 나 asynctask 보다 효율이 좋음 
+
+  반환되는 타입은 Call<객체타입설정> 형태
+
+  HTTP 요청을 처리하는데 필요한 메소드 get,post,put,patch, delete
+
+```kotlin
+@GET("{api_key}/json/SeoulPublicLibraryInfo/1/{end}") //요청한 URI로부터 데이터를 받아오기 위해 사용하는 메소드
+
+...
+//앞에 코드는 요청을 정의하고 
+retrofit = Retrofit.Builder()
+            .baseUrl(SeoulOpenApi.DOMAIN)
+//Json형식의 파일을 Json to kotlin class로 변경 
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+//비동기로 Request를 보내고 Response가 돌아 왔을 때 콜백으로 알림
+ service.getLibraries(SeoulOpenApi.API_KEY,200)
+            .enqueue(object : Callback<Library> {
+                override fun onFailure(call: Call<Library>, t: Throwable) {
+                    Toast.makeText(this@MapsActivity2,"실패함",Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onResponse(call: Call<Library>, response: Response<Library>) {
+                    val result= response.body() //데이터 받음
+                    showLibraries(result)
+                }
+
+            })
 ```
 
