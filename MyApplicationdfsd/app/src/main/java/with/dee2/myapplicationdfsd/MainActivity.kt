@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,8 +17,6 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity() {
     private var mEmailView: AutoCompleteTextView? = null
     private var mPasswordView: EditText? = null
-    private var mEmailLoginButton: Button? = null
-    private var mJoinButton: TextView? = null
     private var mProgressView: ProgressBar? = null
     private var service: ServiceApi? = null
     companion object{
@@ -30,19 +29,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         mEmailView = findViewById<View>(R.id.email_edittext) as AutoCompleteTextView
         mPasswordView = findViewById<View>(R.id.password_edittext) as EditText
-        mEmailLoginButton =
-                findViewById<View>(R.id.signIn_button) as Button
-        mJoinButton = findViewById<View>(R.id.register_button) as TextView
         mProgressView = findViewById<View>(R.id.login_progress) as ProgressBar
         val retrofit = Retrofit.Builder().baseUrl(URL.url) .addConverterFactory(GsonConverterFactory.create()).build();
         service = retrofit.create(ServiceApi::class.java);
 
         maincontext=this@MainActivity
 
-        mEmailLoginButton!!.setOnClickListener {
+        signIn_button!!.setOnClickListener {
             attemptLogin()
         }
-        mJoinButton!!.setOnClickListener {
+        register_button!!.setOnClickListener {
             val intent = Intent(applicationContext, JoinActivity::class.java)
             startActivity(intent)
         }

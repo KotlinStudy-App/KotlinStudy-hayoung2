@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.annotation.Nullable
+import kotlinx.android.synthetic.main.activity_join.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,9 +29,9 @@ class JoinActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_join)
 
-        mEmailView = findViewById(R.id.email);
-        mPasswordView =  findViewById(R.id.password)
-        mNameView = findViewById(R.id.name)
+        mEmailView = findViewById(R.id.email_edit);
+        mPasswordView =  findViewById(R.id.password_edit)
+        mNameView = findViewById(R.id.name_edit)
         mJoinButton = findViewById(R.id.register)
         mProgressView = findViewById(R.id.join_progress)
 
@@ -43,7 +44,11 @@ class JoinActivity : AppCompatActivity() {
             .build();
         service = retrofit.create(ServiceApi::class.java);
 
-        mJoinButton!!.setOnClickListener { attemptJoin() }
+        register!!.setOnClickListener { attemptJoin() }
+    }
+
+    fun register() {
+
     }
 
     private fun attemptJoin() {
