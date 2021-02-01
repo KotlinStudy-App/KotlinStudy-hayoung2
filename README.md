@@ -524,3 +524,14 @@ retrofit = Retrofit.Builder()
             })
 ```
 
+
+
+## AWS 연동 (EC2+ RDS)
+
+- 개발환경 : android(kotlin), nodejs, aws rds(mysql),aws ec2
+- ec2 : 가상 컴퓨터 환경 제공 
+- aws rds ? :AWS 클라우드에서 관계형 데이터베이스를 더 쉽게 설치, 운영 및 확장할 수 있는 웹 서비스. 
+
+![aws연습](https://user-images.githubusercontent.com/39898938/106390539-2fe7ef80-642c-11eb-9499-ad850243a459.gif) 
+
+- utf-8 설정을 안해줘서 한글 인식을 못함.
