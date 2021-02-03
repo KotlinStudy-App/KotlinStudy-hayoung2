@@ -535,3 +535,92 @@ retrofit = Retrofit.Builder()
 ![aws연습](https://user-images.githubusercontent.com/39898938/106390539-2fe7ef80-642c-11eb-9499-ad850243a459.gif) 
 
 - utf-8 설정을 안해줘서 한글 인식을 못함.
+
+  
+
+## 210206 스터디준비
+
+- bodyparser ? : express 내장된 미들웨어(클라이언트와 서버 통신 )
+- app http 메소드에 해당하는 post,get,put, delete 
+
+```javascript
+// 0.0.0.0 호스트를 지정하지 않음 설정. 모든 인터페이스에서 실행가능.
+//app.listen(port,[hostname],[backlog],[callback])
+//서버 생성뒤 port(3000) 을 보고 hostname(ip) 를 선별하고, 비동기적으로 작용.
+app.listen(3000, '0.0.0.0', function () {
+    console.log('서버 실행 중...');
+});
+//db 연결
+var connection = mysql.createConnection({
+    port: 3306 //default
+});
+// '/'  루트 페이지 
+//~/user/data(routing 대상) 에 접속해서 함수 실행 
+//주소르 받아서 특정 주소에 해당하는 요청이 왔을 때 미들웨어 동작
+app.get('/user/data',function(req,res){
+    //req : Request Object 요청객체, 클라이언트에서 보낸 여러 정보 포함
+    //res : response Object 응답객체 , 클라이언트에게 응답할 수 있게하는 객체
+   
+    
+});
+
+app.post('/user/join', function (req, res) {
+    connection.query(sql, params, function (err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            resultCode = 200;
+            message = '회원가입에 성공했습니다.';
+        }
+
+    });
+});
+
+```
+
+
+
+```kotlin
+import com.google.gson.annotations.SerializedName
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.POST
+
+data class JoinData(
+    @field:SerializedName("userName") private val userName: String
+}
+
+class JoinResponse {
+    @SerializedName("code")
+}
+interface ServiceApi {
+    @POST("/user/join")
+    fun userJoin(@Body data: JoinData?): Call<JoinResponse?>?
+
+}
+    
+val retrofit = Retrofit.Builder().baseUrl(URL.url) .addConverterFactory(GsonConverterFactory.create()).build();
+```
+
+```kotlin
+private fun startJoin(data: JoinData) {
+      service!!.userJoin(data)!!.enqueue(object : Callback<JoinResponse?> {
+            override fun onResponse(
+                call: Call<JoinResponse?>,
+                response: Response<JoinResponse?>
+            ) {
+                val result = response.body()
+                if (result.code == 200) {
+                    finish()
+                }
+            }
+
+            override fun onFailure(
+                call: Call<JoinResponse?>,
+                t: Throwable
+            ) {
+            }
+        })
+    }
+```
+
