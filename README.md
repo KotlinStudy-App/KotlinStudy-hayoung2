@@ -540,8 +540,8 @@ retrofit = Retrofit.Builder()
 
 ## 210206 스터디준비
 
-- bodyparser ? : express 내장된 미들웨어(클라이언트와 서버 통신 )
-- app http 메소드에 해당하는 post,get,put, delete 
+- bodyparser ? : express 내장된 미들웨어(클라이언트와 서버 통신 ) 기본적으로 request body 정의 X 그래서 post 할 경우 body parser 미들웨어를 사용함
+- express 라우트 메소드 : get, post , put, delete .....
 
 ```javascript
 // 0.0.0.0 호스트를 지정하지 않음 설정. 모든 인터페이스에서 실행가능.
@@ -560,11 +560,11 @@ var connection = mysql.createConnection({
 app.get('/user/data',function(req,res){
     //req : Request Object 요청객체, 클라이언트에서 보낸 여러 정보 포함
     //res : response Object 응답객체 , 클라이언트에게 응답할 수 있게하는 객체
-   
-    
+  
 });
 
 app.post('/user/join', function (req, res) {
+    // 쿼리 작성, 값 넣고 , 실행 결과 
     connection.query(sql, params, function (err, result) {
         if (err) {
             console.log(err);
@@ -572,7 +572,9 @@ app.post('/user/join', function (req, res) {
             resultCode = 200;
             message = '회원가입에 성공했습니다.';
         }
-
+        res.json{
+            //JSON 응답 전송
+        }
     });
 });
 
@@ -580,8 +582,12 @@ app.post('/user/join', function (req, res) {
 
 
 
+- Annotation : 인터페이스 기반 문법, 특별한 의미 부여 or 기능 주입 가능. 
+
 ```kotlin
+// gson은 json을 편리하게 사용할 수 있도록 google 에서 만든 json관련 라이브러리
 import com.google.gson.annotations.SerializedName
+// retrofit : api를 java 인터페이스로 변환 가능, 쉽게 연결, json에서 java 객체로 변환해 주는 json 변환기가 없음 그래서 gson 사용함. 
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -591,14 +597,20 @@ data class JoinData(
 }
 
 class JoinResponse {
+    // Json에서 key 이름과 동일 (gson)
+    // gson이 json 키를 필드에 매핑하기위해서 필요. 
     @SerializedName("code")
 }
+    
+    // HTTP request 처리
 interface ServiceApi {
+    // HTTP annotation 존재
     @POST("/user/join")
+    // q반환값 call  인터페이스에의 API 메서드에서 반환되는 실제 객체
     fun userJoin(@Body data: JoinData?): Call<JoinResponse?>?
 
 }
-    
+    // baseurl ==endpoint
 val retrofit = Retrofit.Builder().baseUrl(URL.url) .addConverterFactory(GsonConverterFactory.create()).build();
 ```
 
