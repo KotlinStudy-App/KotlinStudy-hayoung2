@@ -556,7 +556,7 @@ var connection = mysql.createConnection({
 });
 // '/'  루트 페이지 
 //~/user/data(routing 대상) 에 접속해서 함수 실행 
-//주소르 받아서 특정 주소에 해당하는 요청이 왔을 때 미들웨어 동작
+//주소를 받아서 특정 주소에 해당하는 요청이 왔을 때 미들웨어 동작
 app.get('/user/data',function(req,res){
     //req : Request Object 요청객체, 클라이언트에서 보낸 여러 정보 포함
     //res : response Object 응답객체 , 클라이언트에게 응답할 수 있게하는 객체
@@ -580,9 +580,10 @@ app.post('/user/join', function (req, res) {
 
 ```
 
-
-
 - Annotation : 인터페이스 기반 문법, 특별한 의미 부여 or 기능 주입 가능. 
+- retrofit : http(클과 서버 요청 프로토콜) rest api 구현을 위한 라이브러리 (위에 36강) 
+- rest api : rest 기반 api 
+- rest : 웹에서 사용하는 Architecture의 한 형식. 네트워크 상 클라이언트와 서버간의 통신 방식, 분산환경에서 클라우드 서비스에 연결 및 상호작용 도와줌. URI를 통해 자원(Resouce)을 명시하고 HTTP Method(GET(데이터 얻기), POST(제출), PUT(업데이트), PATCH, DELETE 등)를 통해  해당 자원에 대한 CRUD를 적용하는 것을 의미 
 
 ```kotlin
 // gson은 json을 편리하게 사용할 수 있도록 google 에서 만든 json관련 라이브러리
@@ -593,6 +594,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 data class JoinData(
+    // 직렬화할 대상들 설정.  String 으로 변경 
     @field:SerializedName("userName") private val userName: String
 }
 
@@ -605,6 +607,7 @@ class JoinResponse {
     // HTTP request 처리
 interface ServiceApi {
     // HTTP annotation 존재
+    // ex. @Path("동적으로 변하는 부분 넣기 ")
     @POST("/user/join")
     // q반환값 call  인터페이스에의 API 메서드에서 반환되는 실제 객체
     fun userJoin(@Body data: JoinData?): Call<JoinResponse?>?
@@ -612,21 +615,28 @@ interface ServiceApi {
 }
     // baseurl ==endpoint
 val retrofit = Retrofit.Builder().baseUrl(URL.url) .addConverterFactory(GsonConverterFactory.create()).build();
+    
 ```
 
+- **Serialization** :메모리 내에 존재하는 정보를 보다 쉽게 전송 및 전달하기 위해 byte 코드 형태로 나열  
+- **Deserialization** : byte로 변환된 Data를 원래대로 Object나 Data로 변환하는 기술 
+
 ```kotlin
+// Gson이 json 과 java 객체 사이를 변환해주는 라이브러리 
 private fun startJoin(data: JoinData) {
       service!!.userJoin(data)!!.enqueue(object : Callback<JoinResponse?> {
             override fun onResponse(
                 call: Call<JoinResponse?>,
                 response: Response<JoinResponse?>
             ) {
+                // Retrofit 에서 GSON 을 JoinResponse 로 변환된 결과 받아옴
                 val result = response.body()
                 if (result.code == 200) {
                     finish()
                 }
             }
 
+          // 응답 실패
             override fun onFailure(
                 call: Call<JoinResponse?>,
                 t: Throwable
