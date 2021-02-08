@@ -1,11 +1,17 @@
 package with.dee2.translate
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
 import org.json.JSONObject
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
+
 import java.io.IOException
 
 
@@ -14,6 +20,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        papagoAPI()
+
+        button.setOnClickListener {
+            val intent= Intent(this,SubActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+
+    fun papagoAPI() {
         val JSON = MediaType.parse("application/json; charset=utf-8")
 
         val client =OkHttpClient()
@@ -35,12 +52,14 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
 
                 var result=Gson().fromJson<Papage>(response.body()?.string(),Papage::class.java)
-                Log.d("제발시발",result.message.result.translatedText)
+                Log.d("번역 : ",result.message.result.translatedText!!)
             }
 
         })
     }
 }
+
+
 
 
 
