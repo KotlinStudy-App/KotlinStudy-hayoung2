@@ -646,3 +646,35 @@ private fun startJoin(data: JoinData) {
     }
 ```
 
+
+
+### 210209 스터디
+
+- OkHttpClient : http 통신 편하게 해주는 라이브러리
+
+```kotlin
+val client =OkHttpClient()
+        var url ="https://openapi.naver.com/v1/papago/n2mt"
+        var json =JSONObject()// JSON 으로 값 넘겨줌
+        json.put("source","ko") // 받을 언어
+        json.put("target","en")// 번역해줄 언어
+        json.put("text","안녕") //번역할 
+		//서버에 값 전달할 것
+        val body=RequestBody.create(JSON,json.toString())
+        val request = Request.Builder().header("X-Naver-Client-Id","")
+            .addHeader("X-Naver-Client-Secret","")
+            .url(url).post(body).build()
+
+        client.newCall(request).enqueue(object:Callback{
+            override fun onFailure(call: Call, e: IOException) {
+
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                var result=Gson().fromJson<Papago>(response.body()?.string(),Papago::class.java) //Gson 사용해서 json으로 변경
+                Log.d("번역 : ",result.message.result.translatedText!!)
+            }
+
+        })
+```
+
